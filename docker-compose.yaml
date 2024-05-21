@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  reverseproxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8080:80"
+      - "1443:443"
+    restart: always
+  api:
+    depends_on:
+      - reverseproxy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8088:80"
+    restart: always
